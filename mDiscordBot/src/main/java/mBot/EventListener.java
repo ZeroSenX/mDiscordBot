@@ -12,7 +12,6 @@ public class EventListener extends ListenerAdapter {
             return;
         }
         String message = event.getMessage().getContentRaw();
-
         if(message.startsWith("!m")) {
             System.out.println("WEWEWE");
 
