@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CmdPlay implements ICommandExecutor {
     @Override
@@ -23,14 +25,21 @@ public class CmdPlay implements ICommandExecutor {
             audioManager.openAudioConnection(memberChannel);
         }
 
-        String link = String.join(" ", event.getArgs());
+        ArrayList<String> search = new ArrayList<>(Arrays.asList(event.getArgs()));
+        search.remove(0);
+        String link = String.join(" ", search);
 
-        if(!isUrl(link)){
-            link = "ytsearch:" + link + " audio";
+
+
+        if(link.length() != 0) {
+            if(!isUrl(link)){
+                link = "ytsearch: " + link + " audio";
+            }
+            new PlayerManager();
+            PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
         }
-
-        PlayerManager.getINSTANCE().loadAndPlay(event.getTextChannel(), link);
-
+        else
+            PlayerManager.getINSTANCE().setPause(event.getTextChannel(), false);
     }
 
     public boolean isUrl(String url){

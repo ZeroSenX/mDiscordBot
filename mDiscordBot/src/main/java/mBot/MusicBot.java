@@ -2,6 +2,7 @@ package mBot;
 
 import commands.CmdHello;
 import commands.CmdPlay;
+import commands.CmdPause;
 import io.github.cdimascio.dotenv.Dotenv;
 import jdacommands.JDACommands;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -10,8 +11,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
-import java.util.Collection;
-
 public class MusicBot {
 
     public static void main(String[] args) {
@@ -19,6 +18,9 @@ public class MusicBot {
         JDACommands jdaCommands = new JDACommands("!");
         jdaCommands.registerCommand(new CmdHello());
         jdaCommands.registerCommand(new CmdPlay());
+        jdaCommands.registerCommand(new CmdPause());
+
+        //PlayerManager playerManager = new PlayerManager();
 
 
         Dotenv config = Dotenv.configure().load();
@@ -32,7 +34,6 @@ public class MusicBot {
         ShardManager shardManager = builder.build();
 
         // Register a new event listener
-        //shardManager.addEventListener(new EventListener());
         shardManager.addEventListener(jdaCommands);
     }
 }
